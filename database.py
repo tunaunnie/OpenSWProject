@@ -39,14 +39,20 @@ class DBhandler:
     
     def user_duplicate_check(self, id_string):
         users = self.db.child("user").get()
-        
         print("users###",users.val())
         if str(users.val()) == "None": # first registration
             return True
         else:
             for res in users.each():
                 value = res.val()
-                
-            if value['id'] == id_string:
-                return False
-        return True
+                if value['id'] == id_string:
+                    return False
+            return True
+    
+    def find_user(self, id_, pw_):
+        users = self.db.child("user").get()
+        target_value=[]
+        for res in users.each():
+            value = res.val()
+        if value['id'] == id_ and value['pw'] == pw_: return True
+        return False
