@@ -1,0 +1,31 @@
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin : 0;
+}
+
+.navbar__logo {
+    background-color : #f1f1f1;
+    padding: 20px;
+    text-align: center;
+}
+
+.navbar__menu {
+    overflow: hidden;
+    background-color: #333;
+}
+
+.navbar__menu a {
+   float: left;
+    display: block;
+    color: #ffffff;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+</style>
