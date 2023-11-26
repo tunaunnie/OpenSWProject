@@ -28,7 +28,7 @@ class DBhandler:
         user_info ={
             "id": data['id'],
             "pw": pw,
-            "nickname": data['nickname']
+            #"nickname": data['nickname']
         }
         if self.user_duplicate_check(str(data['id'])):
             self.db.child("user").push(user_info)
@@ -54,5 +54,66 @@ class DBhandler:
         target_value=[]
         for res in users.each():
             value = res.val()
-        if value['id'] == id_ and value['pw'] == pw_: return True
+            if value['id'] == id_ and value['pw'] == pw_: 
+                return True
         return False
+    
+    def get_items(self):
+        items = self.db.child("item").get().val()
+        return items
+    
+    def get_item_byname(self, name):
+        items = self.db.child("item").get()
+        target_value=""
+        print("#############",name)
+        for res in items.each():
+            key_value = res.key()
+            
+            if key_value == name:
+                target_value=res.val()
+        return target_value
+    
+    def reg_review(self, name, data, img_path):
+        review_info ={
+            "title": data['title'],
+            "rate": data['reviewStar'],
+            "review": data['reviewContents'],
+            "img_path": img_path
+        }
+        self.db.child("review").child(data['name']).set(review_info)
+        return True
+        
+    def get_reviews(self):
+        items = self.db.child("review").get().val()
+        return items
+
+    def get_review_byname(self, name):
+        items = self.db.child("review").get()
+        target_value=""
+        print("#############",name)
+        for res in items.each():
+            key_value = res.key()
+            
+            if key_value == name:
+                target_value=res.val()
+        return target_value
+
+    def get_heart_byname(self, uid, name):
+        hearts = self.db.child("heart").child(uid).get()
+        target_value=""
+        if hearts.val() == None:
+            return target_value
+
+        for res in hearts.each():
+            key_value = res.key()
+
+        if key_value == name:
+            target_value=res.val()
+        return target_value
+ 
+    def update_heart(self, user_id, isHeart, item):
+        heart_info ={
+            "interested": isHeart
+        }
+        self.db.child("heart").child(user_id).child(item).set(heart_info)
+        return True
